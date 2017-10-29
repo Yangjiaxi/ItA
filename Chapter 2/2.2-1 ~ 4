@@ -1,0 +1,11 @@
+- 2.2-1
+
+  theta( n^3 )
+
+- for j = 1 to A.length
+
+   k = j + 1;
+
+    for i = j +1 to A.length
+
+  ​    
