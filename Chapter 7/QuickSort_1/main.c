@@ -18,7 +18,7 @@ int PARTITION(int a[], int left, int right)
 	for (int j = left; j <= right - 1; j++)
 	{
 		//如果j指向的元素比关键字小，则把他与j区第一个元素swap，并i++，这一过程把该元素移入i区，并更新i的大小
-		if (a[j] <= key)   //排序关键字，修改为>=可实现升序排列
+		if (a[j] <= key)   //排序关，修改为>=可实现升序排列
 		{
 			i++;
 			swap(&a[i], &a[j]);
