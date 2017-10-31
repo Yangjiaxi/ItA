@@ -35,6 +35,7 @@ void COUNTING_SORT(int A[], int B[], int length, int d)  //d: 第d位
 
 void swapArr(int a[], int b[], int n)
 {
+	//考虑使用memset,但memset的Big-O同样为n
 	for (int i = 1; i <= n; i++)
 	{
 		a[i] = b[i];
