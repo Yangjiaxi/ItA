@@ -118,7 +118,7 @@ void preFix()  //预处理，去除多余空格和分割数据
         tmpNum = (tmp[i] - '0');
         flag = 1;
       }
-      else //在统计中，使用F[i + 1] = F[i] + a[i]
+      else //在统计中，使用F[i + 1] = F[i] * 10 + a[i]
       {
         tmpNum *= 10;
         tmpNum += (tmp[i] - '0');
