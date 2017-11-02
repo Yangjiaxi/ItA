@@ -29,9 +29,13 @@ int chmode(char c) //返回字符等级
   {
     return 2;
   }
-  else if (c == '(' || c == ')')
+  else if (c == '^')
   {
     return 3;
+  }
+  else if (c == '(' || c == ')')
+  {
+    return 4;
   }
   else  //表示数字
   {
@@ -145,7 +149,7 @@ void toLRN() //LNR->LRN
     }
     else  //字符
     {
-      if (LNR[i].type != 3)  //运算符
+      if (LNR[i].type != 4)  //运算符
       {
         if (top == -1 || stack[top] == '(')  //操作栈为空或栈顶为'('
         {
@@ -156,7 +160,7 @@ void toLRN() //LNR->LRN
           stack[++top] = LNR[i].ch;
         }
         else  //优先级小于栈顶元素，栈顶元素pop，直到优先级大于栈顶元素，push
-        {
+        {0
           while (1)
           {
             if (top == -1 || stack[top] == '(')  //操作栈为空或栈顶为'('

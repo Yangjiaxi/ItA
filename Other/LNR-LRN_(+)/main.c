@@ -7,7 +7,6 @@ S LNR;
 S tmp;
 S LRN;
 S stack;
-int top;           //栈顶元素，-1表示栈为空，从0开始计数
 
 int chmode(char c) //返回字符等级
 {
@@ -19,9 +18,13 @@ int chmode(char c) //返回字符等级
   {
     return 2;
   }
-  else if (c == '(' || c == ')')
+  else if (c == '^')
   {
     return 3;
+  }
+  else if (c == '(' || c == ')')
+  {
+    return 4;
   }
   else
   {
@@ -60,7 +63,7 @@ void toLRN()
     }
     else  //字符
     {
-      if (chmode(LNR[i]) != 3)  //运算符
+      if (chmode(LNR[i]) != 4)  //运算符
       {
         if (top == -1 || stack[top] == '(')  //操作栈为空或栈顶为'('
         {
