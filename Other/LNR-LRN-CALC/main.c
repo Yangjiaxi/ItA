@@ -1,11 +1,24 @@
+/*
+ *中缀表达式转后缀表达式并求值
+ *可以计算乘方、阶乘
+ *对于a^b : b必须为整数
+ *对于a! : a必须为正整数
+ *
+ *  !!!!未实现功能:负号!！!!
+*/
+
 #include <stdio.h>
 #include <mem.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define BRACKET_POR 99
 
 typedef char S[100];
 
 typedef struct _node  //最小数据节点（符号/数字）
 {
-  int num;
+  double num;
   char ch;
   int type; //0为数字，1为+-，2为*/,3为括号
 } node;
@@ -15,9 +28,22 @@ node LRN[200];
 int lenLNR = -1; //表示LNR最后一个下标，-1为空，从0计数
 int lenLRN = 0;  //表示LRN长度+1，为尾后对象
 
+double ans = 0;
+
 S ori;  //输入数据
 S tmp;  //删除逗号后的数据
 S stack;  //符号栈
+double numStack[200]; //数字栈，用于LRN的运算，从0开始使用，-1表示为空
+
+int chmode(char c); //返回字符等级
+void outLNR(); //输出LNR
+void outLRN(); //输出LRN
+void preFix();  //预处理，去除多余空格和分割数据
+void toLRN(); //LNR->LRN
+void calcLRN();  //后缀表达式求值
+int pair();  //检查括号匹配函数，只允许使用 ( 与 )
+void check();   //检查括号合法性
+
 
 int chmode(char c) //返回字符等级
 {
@@ -33,9 +59,13 @@ int chmode(char c) //返回字符等级
   {
     return 3;
   }
-  else if (c == '(' || c == ')')
+  else if (c == '!')
   {
     return 4;
+  }
+  else if (c == '(' || c == ')')
+  {
+    return BRACKET_POR;  //其他运算符最高级别:98
   }
   else  //表示数字
   {
@@ -43,22 +73,150 @@ int chmode(char c) //返回字符等级
   }
 }
 
+typedef double (*operation)(const double, const double);
+
+operation opeartions[128] = {NULL};
+
+double add(const double a, const double b)
+{
+  return a + b;
+}
+
+double sub(const double a, const double b)
+{
+  return a - b;
+}
+
+double multi(const double a, const double b)
+{
+  return a * 1.0 * b;
+}
+
+double by(const double a, const double b)
+{
+  if (b) return a * 1.0 / b;
+  else
+  {
+    printf("ERROR: a/b : b cannot be zero\n");
+    exit(-5);
+  }
+}
+
+double fastPow(double a, double b)
+{
+  double r = 1.0;
+  double base = a;
+  int bb = (int) fabs(b);
+  while (bb)
+  {
+    if (bb & 1) r *= base;
+    base *= base;
+    bb >>= 1;
+  }
+  if (b < 0)
+  {
+    r = 1 / r;
+  }
+
+  return r;
+}
+
+double power(const double a, const double b)
+{
+  if (b == (int) b) return fastPow(a, b);
+  else
+  {
+    printf("ERROR: a^b : b must an integer\n");
+    exit(-2);
+  }
+
+}
+
+void init()
+{
+  opeartions['+'] = add;
+  opeartions['-'] = sub;
+  opeartions['*'] = multi;
+  opeartions['/'] = by;
+  opeartions['^'] = power;
+}
+
+double eval(char opera, const double a, const double b)
+{
+  operation opt;
+  opt = opeartions[opera];
+  if (opt == NULL)
+  {
+    printf("ERROR:Unsolved Symbol %c\n", opera);
+    exit(-1);
+  }
+  else return opt(a, b);
+}
+
+double fact(double num)
+{
+  if (num != (int) num)
+  {
+    printf("ERROR: Factorial(n) : n must be a non-negative integer\n");
+    exit(-3);
+  }
+  else
+  {
+    int res = 1;
+    for (int i = 1; i <= num; i++)
+    {
+      res *= i;
+    }
+    return res;
+  }
+}
+
+void calcLRN()  //后缀表达式求值
+{
+  int nTop = -1; //从0开始使用，-1表示为空
+  for (int i = 0; i < lenLRN; ++i)
+  {
+    if (!LRN[i].type)  //i位置是数字，压入计算栈
+    {
+      numStack[++nTop] = LRN[i].num;
+    }
+    else  //是符号，准备计算。每次计算后再把结果压入栈
+    {
+      if (LRN[i].type != 4) //字符不是阶乘运算符
+      {
+        double num2 = numStack[nTop--];
+        double num1 = numStack[nTop--];
+        double res = eval(LRN[i].ch, num1, num2);  //使用函数指针
+        numStack[++nTop] = res;
+      }
+      else  //是阶乘运算符
+      {
+        double num = numStack[nTop--];
+        double res = fact(num); //检查num是否为整数，阶乘只允许整数
+        numStack[++nTop] = res;
+      }
+    }
+  }
+  ans = numStack[nTop]; //在整体计算之后，计算栈内只有一个元素，即为后缀表达式的值
+}
 
 void outLNR()
 {
+  printf("LNR:: ");
   for (int i = 0; i <= lenLNR; ++i)
   {
     if (LNR[i].type)
     {
       printf("%c ", LNR[i].ch);
     }
-    else printf("%d ", LNR[i].num);
+    else printf("%.3lf ", LNR[i].num);
   }
 }
 
 
 void outLRN()
 {
+  printf("LRN:: ");
   for (int i = 0; i < lenLRN; ++i)
   {
     //printf("type::%d::", LNR[i].type);
@@ -66,7 +224,7 @@ void outLRN()
     {
       printf("%c ", LRN[i].ch);
     }
-    else printf("%d ", LRN[i].num);
+    else printf("%.3lf ", LRN[i].num);
   }
 }
 
@@ -149,7 +307,7 @@ void toLRN() //LNR->LRN
     }
     else  //字符
     {
-      if (LNR[i].type != 4)  //运算符
+      if (LNR[i].type != BRACKET_POR)  //运算符
       {
         if (top == -1 || stack[top] == '(')  //操作栈为空或栈顶为'('
         {
@@ -242,22 +400,26 @@ void check()   //检查括号合法性
   if (pair())
   {
     toLRN();
-    printf("\n***********\n");
+    printf("\n<--->\n");
     outLNR();
-    printf("\n***********\n");
+    printf("\n<--->\n");
     outLRN();
-    printf("\n***********\n");
+    printf("\n<--->\n");
+    calcLRN();
+    printf("Result : %.3lf", ans);
+    printf("\n<--->\n");
   }
   else
   {
-    printf("\n***********\n");
+    printf("\n<--->\n");
     printf("Error : Unbalanced Bracket\n");
-    printf("\n***********\n");
+    printf("\n<--->\n");
   }
 }
 
 int main()
 {
+  init();
   gets(ori);  //读取
   preFix();   //预处理
   check();  //检验合法性并开始算法
