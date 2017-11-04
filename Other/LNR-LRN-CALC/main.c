@@ -20,7 +20,7 @@ typedef struct _node  //最小数据节点（符号/数字）
 {
   double num;
   char ch;
-  int type; //0为数字，1为+-,2为*/,3为^,4为!,5为括号
+  int type;  //0为数字，1为+-,2为*/,3为^,4为!,5为括号
 } node;
 
 node LNR[200];
