@@ -8,7 +8,7 @@
 */
 
 #include <stdio.h>
-#include <mem.h>
+#include <memory.h>
 #include <stdlib.h>
 #include <math.h>
 
