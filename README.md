@@ -1,3 +1,7 @@
 # ItA
-Introduction to Algorithms
-That's good.
+
+Introduction to Algorithms.
+
+That turns me on.
+
+I love that.
