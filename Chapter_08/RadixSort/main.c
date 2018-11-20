@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include <windows.h>
+#include <time.h>
+#include <stdlib.h>
 
 int pow10(int p)
 {
@@ -15,9 +16,9 @@ int gen(int num, int d)
     return (num / mod) % 10;
 }
 
-void COUNTING_SORT(int A[], int B[], int length, int d) //d: 第d位
+void counting_sort(int A[], int B[], int length, int d) //d: 第d位
 {
-    int C[20];
+    int C[10];
 
     for (int i = 0; i <= 9; i++)
         C[i] = 0;
@@ -36,7 +37,7 @@ void COUNTING_SORT(int A[], int B[], int length, int d) //d: 第d位
     }
 }
 
-void swapArr(int a[], int b[], int n)
+void swap_arr(int a[], int b[], int n)
 {
     //考虑使用memset,但memset的Big-O同样为n
     for (int i = 1; i <= n; i++)
@@ -46,32 +47,46 @@ void swapArr(int a[], int b[], int n)
     }
 }
 
+int *rand_arr(int size, int max_n)
+{
+    srand(time(NULL));
+    int *a = malloc(sizeof(int) * (size + 1));
+    for (int i = 1; i <= size; i++)
+    {
+        a[i] = rand() % max_n;
+    }
+    return a;
+}
+
 int main()
 {
-    int n;
-    scanf("%d", &n);
-    int A[n * 2]; //源数据
-    int B[n * 2]; //保存结果
+    int n = 10;
     int max = -1;
+    int *A = rand_arr(n, 500);
+    int *B = malloc(sizeof(int) * (n + 1));
+    int d = 1;
+    printf("Ori data: ");
     for (int i = 1; i <= n; i++)
     {
-        scanf("%d", &A[i]);
         if (max < A[i])
             max = A[i];
-        B[i] = 0;
+        printf("%10d", A[i]);
     }
-    int d = 1;
+    printf("\n");
     while (max /= 10)
+    {
         d++;
+    }
     for (int i = 1; i <= d; i++)
     {
-        COUNTING_SORT(A, B, n, i);
+        counting_sort(A, B, n, i);
+        printf("step %02d : ", i);
+        for (int i = 1; i <= n; i++)
+            printf("%10d", B[i]);
         if (i < d)
-            swapArr(A, B, n);
+            swap_arr(A, B, n);
+        printf("\n");
     }
-    for (int i = 1; i <= n; i++)
-        printf("%d\n", B[i]);
-    printf("\n");
-    system("PAUSE");
+
     return 0;
 }
