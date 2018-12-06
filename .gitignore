@@ -18,3 +18,4 @@ build
 *.out
 *.ipynb
 .ipynb_checkpoints
+.vscode
