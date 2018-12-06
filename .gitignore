@@ -13,3 +13,8 @@ cmake-build-debug
 *.o
 *.exe
 .DS_Store
+build
+*.pyc
+*.out
+*.ipynb
+.ipynb_checkpoints
