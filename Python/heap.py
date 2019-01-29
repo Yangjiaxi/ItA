@@ -2,10 +2,10 @@ from utils import *
 
 
 class Heap:
-    def __init__(self, max_heap=True, comp=None):
+    def __init__(self, is_max_heap=True, comp=None):
         self.data = []
         self.heap_size = 0
-        self.max_heap = max_heap
+        self.max_heap = is_max_heap
         if comp is None:
             self.comp = self.make_default_comp()
         else:
@@ -17,13 +17,16 @@ class Heap:
 
         return inner
 
-    def _parent(self, idx):
+    @staticmethod
+    def _parent(idx):
         return idx >> 1
 
-    def _left(self, idx):
+    @staticmethod
+    def _left(idx):
         return idx << 1
 
-    def _right(self, idx):
+    @staticmethod
+    def _right(idx):
         return (idx << 1) + 1
 
     def heap_init(self, arr):
@@ -36,15 +39,15 @@ class Heap:
             self.heapify(idx)
 
     def heapify(self, idx):
-        l = self._left(idx)
-        r = self._right(idx)
+        left = self._left(idx)
+        right = self._right(idx)
 
-        if l <= self.heap_size and self.comp(self[l], self[idx]) > 0:
-            largest = l
+        if left <= self.heap_size and self.comp(self[left], self[idx]) > 0:
+            largest = left
         else:
             largest = idx
-        if r <= self.heap_size and self.comp(self[r], self[largest]) > 0:
-            largest = r
+        if right <= self.heap_size and self.comp(self[right], self[largest]) > 0:
+            largest = right
 
         if largest != idx:
             self[idx], self[largest] = self[largest], self[idx]
@@ -85,7 +88,7 @@ if __name__ == "__main__":
     print(max_heap)
     print(res)
 
-    min_heap = Heap(max_heap=False)
+    min_heap = Heap(is_max_heap=False)
     min_heap.heap_init([4, 1, 3, 2, 16, 9, 10, 14, 8, 7])
     print(min_heap)
 

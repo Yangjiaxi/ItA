@@ -3,7 +3,7 @@ from heap import Heap
 
 class PriorityQueue(Heap):
     def __init__(self, max_queue=True, comp=None):
-        super().__init__(max_heap=max_queue, comp=comp)
+        super().__init__(is_max_heap=max_queue, comp=comp)
 
     def queue_init(self, arr):
         return super().heap_init(arr)

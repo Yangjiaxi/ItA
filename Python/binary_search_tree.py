@@ -175,20 +175,25 @@ class BinarySearchTree:
         s += "******[END]******\n"
         return s
 
-    def _tree_repr(self, root):
+    def _tree_repr(self, root, fmt=None):
         if root is self.nil:
             return [], 0, 0, 0
 
         line1 = []
         line2 = []
 
-        node_repr = str(root.data)
+        if fmt is None:
+            node_repr = str(root.data)
+        else:
+            node_repr = str(fmt(root))
 
         new_root_width = gap_size = len(node_repr)
 
         # Get the left and right sub-boxes, their widths, and root repr positions
-        l_box, l_box_w, l_root_start, l_root_end = self._tree_repr(root.left)
-        r_box, r_box_w, r_root_start, r_root_end = self._tree_repr(root.right)
+        l_box, l_box_w, l_root_start, l_root_end = self._tree_repr(
+            root.left, fmt)
+        r_box, r_box_w, r_root_start, r_root_end = self._tree_repr(
+            root.right, fmt)
 
         # Draw the branch connecting the current root node to the left sub-box
         # Pad the line with whitespaces where necessary
