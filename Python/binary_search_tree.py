@@ -1,3 +1,6 @@
+from typing import Union
+
+
 class TreeNode:
     def __init__(self, data, left=None, right=None, parent=None):
         self.data = data
@@ -21,12 +24,17 @@ class TreeNode:
 
 
 class BinarySearchTree:
-    def __init__(self, comp=None):
+    def __init__(self, comp=None, node_type=None):
         if comp is None:
-            self.comp = lambda a, b: a.data - b.data
+            self.comp = lambda l, r: l.data - r.data
         else:
             self.comp = comp
-        self.nil = TreeNode(-1)
+        if node_type is None:
+            self.node_type = TreeNode
+        else:
+            self.node_type = node_type
+        # self.nil = TreeNode(-1)
+        self.nil = self.node_type(-1)
         self._root = self.nil
 
     @property
@@ -34,10 +42,10 @@ class BinarySearchTree:
         return self._root
 
     @root.setter
-    def root(self, root):
-        if not isinstance(root, TreeNode):
+    def root(self, new_root):
+        if not isinstance(new_root, self.node_type):
             raise ValueError("value must be a tree node")
-        self._root = root
+        self._root = new_root
 
     def search(self, k):
         x = self.root
@@ -48,13 +56,13 @@ class BinarySearchTree:
                 x = x.right
         return x
 
-    def insert(self, z):
-        if not isinstance(z, TreeNode):
-            z = TreeNode(z, self.nil, self.nil)
+    def insert(self, z: Union[int, float, TreeNode]):
+        if not isinstance(z, self.node_type):
+            z = self.node_type(z, left=self.nil, right=self.nil)
         return self._insert(z)
 
     def _insert(self, z):
-        assert isinstance(z, TreeNode)
+        assert isinstance(z, self.node_type)
         y = self.nil
         x = self.root
         while x is not self.nil:
@@ -79,40 +87,40 @@ class BinarySearchTree:
 
         return z
 
-    def inorder_walk(self):
-        print("Inorder tree walk:")
-        self.node_inorder_walk(self.root)
+    def in_order_walk(self):
+        print("In order tree walk:")
+        self.node_in_order_walk(self.root)
         print()
         print("*" * 25)
 
-    def preorder_walk(self):
-        print("Preorder tree walk:")
-        self.node_preorder_walk(self.root)
+    def pre_order_walk(self):
+        print("Pre order tree walk:")
+        self.node_pre_order_walk(self.root)
         print()
         print("*" * 25)
 
-    def postorder_walk(self):
-        print("Postorder tree walk:")
-        self.node_postorder_walk(self.root)
+    def post_order_walk(self):
+        print("Post order tree walk:")
+        self.node_post_order_walk(self.root)
         print()
         print("*" * 25)
 
-    def node_preorder_walk(self, x):
+    def node_pre_order_walk(self, x):
         if x is not self.nil:
             print(x.data, end=" ")
-            self.node_preorder_walk(x.left)
-            self.node_preorder_walk(x.right)
+            self.node_pre_order_walk(x.left)
+            self.node_pre_order_walk(x.right)
 
-    def node_inorder_walk(self, x):
+    def node_in_order_walk(self, x):
         if x is not self.nil:
-            self.node_inorder_walk(x.left)
+            self.node_in_order_walk(x.left)
             print(x.data, end=" ")
-            self.node_inorder_walk(x.right)
+            self.node_in_order_walk(x.right)
 
-    def node_postorder_walk(self, x):
+    def node_post_order_walk(self, x):
         if x is not self.nil:
-            self.node_postorder_walk(x.left)
-            self.node_postorder_walk(x.right)
+            self.node_post_order_walk(x.left)
+            self.node_post_order_walk(x.right)
             print(x.data, end=" ")
             # print(x)
 
@@ -134,7 +142,7 @@ class BinarySearchTree:
 
     def transplant(self, u, v):
         if u.p is self.nil:
-            self.root = v
+            self._root = v
         elif u is u.p.left:
             u.p.left = v
         else:
@@ -143,8 +151,8 @@ class BinarySearchTree:
             v.p = u.p
 
     def delete(self, z):
-        if not isinstance(z, TreeNode):
-            z = TreeNode(z, self.nil, self.nil)
+        if not isinstance(z, self.node_type):
+            z = self.node_type(z)
         self._delete(z)
 
     def _delete(self, z):
@@ -237,14 +245,14 @@ class BinarySearchTree:
 
 if __name__ == "__main__":
     bst = BinarySearchTree()
-    l = [81, 60, 52, 63, 67, 25, 61, 94, 82, 1]
-    for il in l:
-        bst.insert(il)
+    insert_list = [81, 60, 52, 63, 67, 25, 61, 94, 82, 1]
+    for items in insert_list:
+        bst.insert(items)
         print(bst)
 
-    bst.preorder_walk()
-    bst.inorder_walk()
-    bst.postorder_walk()
+    bst.pre_order_walk()
+    bst.in_order_walk()
+    bst.post_order_walk()
 
     print("max: ", bst.maximum().data)
     print("min: ", bst.minimum().data)
