@@ -18,7 +18,7 @@ class RBNode(TreeNode):
 
 
 class RBTree(BinarySearchTree):
-    def __init__(self, comp=None, node_type=None):
+    def __init__(self, comp=None, node_type=None, allow_duplicate=False):
         super().__init__(comp, node_type)
         if comp is None:
             self.comp = lambda l, r: l.data - r.data
@@ -29,6 +29,7 @@ class RBTree(BinarySearchTree):
             self.node_type = RBNode
         else:
             self.node_type = node_type
+        self.allow_duplicate = allow_duplicate
 
         self.nil = self.node_type(-1, color=BLACK)
         self._root = self.nil
@@ -53,10 +54,13 @@ class RBTree(BinarySearchTree):
             y = x
             if self.comp(z, x) < 0:
                 x = x.left
-            elif self.comp(z, x) > 0:
+            elif self.allow_duplicate:
                 x = x.right
             else:
-                return x
+                if self.comp(z, x) > 0:
+                    x = x.right
+                else:
+                    return x
         z.p = y
         if y is self.nil:
             self.root = z
@@ -116,6 +120,7 @@ class RBTree(BinarySearchTree):
             x.p.right = y
         y.left = x
         x.p = y
+        return y
 
     def right_rotate(self, x):
         y = x.left
@@ -131,6 +136,7 @@ class RBTree(BinarySearchTree):
             x.p.left = y
         y.right = x
         x.p = y
+        return y
 
     def transplant(self, u, v):
         if u.p is self.nil:
@@ -173,7 +179,7 @@ class RBTree(BinarySearchTree):
             self.delete_fixup(x)
 
     def delete_fixup(self, x):
-        while x != self._root and x.color == BLACK:
+        while x is not self._root and x.color == BLACK:
             if x is x.p.left:
                 w = x.p.right
                 if w.color == RED:
@@ -228,8 +234,15 @@ if __name__ == "__main__":
 
     print(rbt)
 
+    a = 0
     while rbt.root is not rbt.nil:
-        rbt.delete(rbt.root)
+        if a == 0:
+            rbt.delete(rbt.root)
+        elif a == 1:
+            rbt.delete(rbt.maximum())
+        else:
+            rbt.delete(rbt.minimum())
+        a = (a + 1) % 3
         print(rbt)
 
     # print(rbt)
