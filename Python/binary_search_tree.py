@@ -19,7 +19,7 @@ class TreeNode:
         s += "\n\t(2) left\t: {}".format(id(self.left))
         s += "\n\t(3) right\t: {}".format(id(self.right))
         s += "\n\t(4) parent\t: {}".format(id(self.p))
-        s += "\n\t(5) data\t: {}".format(self.data)
+        s += "\n\t(5) data\t: {}\t <-- ".format(self.data)
         return s
 
 
