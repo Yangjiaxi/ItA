@@ -49,7 +49,7 @@ class OSTree(RBTree):
 
     def delete(self, z):
         if not isinstance(z, self.node_type):
-            z = self.node_type(z)
+            raise ValueError("Must be a OS-Tree Node")
         y = z
         while y is not self.nil:
             y.size -= 1

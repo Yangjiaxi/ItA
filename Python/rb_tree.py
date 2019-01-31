@@ -149,7 +149,7 @@ class RBTree(BinarySearchTree):
 
     def delete(self, z):
         if not isinstance(z, self.node_type):
-            z = self.node_type(z)
+            raise ValueError("Must be a Red-Black-Tree Node")
         self._delete(z)
 
     def _delete(self, z):
