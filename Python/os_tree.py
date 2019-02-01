@@ -120,6 +120,17 @@ class OSTree(RBTree):
                 x = x.left
         return x
 
+    def rank(self, x):
+        if x is not None:
+            r = x.left.size + 1
+            y = x
+            while y is not self.root:
+                if y is y.p.right:
+                    r += y.p.left.size + 1
+                y = y.p
+            return r
+        return -1
+
 
 if __name__ == "__main__":
     ost = OSTree(allow_duplicate=True)
@@ -135,7 +146,9 @@ if __name__ == "__main__":
 
     query_list = [17, 20, 21, 13, 1]
     for query_item in query_list:
-        print("{}-th smallest item: {}\n".format(query_item, ost.select(query_item)))
+        res = ost.select(query_item)
+        print("{}-th smallest item: {}".format(query_item, res))
+        print("Then, this item is {}-th\n".format(ost.rank(res)))
 
     a = 0
     while ost.root is not ost.nil:
