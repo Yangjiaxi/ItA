@@ -2,6 +2,4 @@
 
 Introduction to Algorithms.
 
-That turns me on.
-
-I love that.
+War, war never changes.
