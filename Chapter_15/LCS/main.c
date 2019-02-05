@@ -9,8 +9,11 @@ void endl()
 /*
     LCS-DP
     Given two string A and B, find the longest common subsequence C
-    let matrix f(len(A) * len(B)), f[i ,j] specify LCS(sub(A, i), sub(B, j)),
-            note: sub(S, idx) takes idx-th prefix of S
+
+    let matrix f(len(A) * len(B)),
+    f[i ,j] specify len(LCS(prefix(A, i), prefix(B, j)))
+        note: prefix(S, idx) takes idx-th prefix of S
+
     DP:
     ---------------------------------------------------
     f[i, j] =
