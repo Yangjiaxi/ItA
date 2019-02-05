@@ -13,10 +13,10 @@ int dp_iter(int* cost, int n)
     int result[n + 1];
     int record[n + 1];
     result[0] = 0;
-    for (int j = 1; j <= n; j++)
+    for (int j = 1; j <= n; ++j)
     {
         int q = -1;
-        for (int i = 1; i <= j; i++)
+        for (int i = 1; i <= j; ++i)
         {
             if (q < cost[i] + result[j - i])
             {
@@ -26,11 +26,6 @@ int dp_iter(int* cost, int n)
         }
         result[j] = q;
     }
-    // for (int i = 0; i <= n; i++)
-    // {
-    //     printf("%d ", result[i]);
-    // }
-    // printf("\n");
     printf("%d = ", n);
     int rn = n;
     while (rn)
@@ -48,7 +43,10 @@ int dp_iter(int* cost, int n)
 int main()
 {
     int cost[N + 1] = {0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
-    int query = 4;
-    printf("%d\n", dp_iter(cost, query));
+    for (int target = 1; target <= 10; ++target)
+    {
+        printf("cost : %d\n", dp_iter(cost, target));
+        printf("--------------------------------\n");
+    }
     return 0;
 }
