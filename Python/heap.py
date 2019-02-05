@@ -46,7 +46,8 @@ class Heap:
             largest = left
         else:
             largest = idx
-        if right <= self.heap_size and self.comp(self[right], self[largest]) > 0:
+        if right <= self.heap_size and self.comp(self[right],
+                                                 self[largest]) > 0:
             largest = right
 
         if largest != idx:

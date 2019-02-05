@@ -4,8 +4,15 @@ from rb_tree import RBNode, RBTree, BLACK, RED
 
 
 class OSNode(RBNode):
-    def __init__(self, data, left=None, right=None, parent=None, color=None, size=None):
-        super().__init__(data, left=left, right=right, parent=parent, color=color)
+    def __init__(self,
+                 data,
+                 left=None,
+                 right=None,
+                 parent=None,
+                 color=None,
+                 size=None):
+        super().__init__(
+            data, left=left, right=right, parent=parent, color=color)
         self.size = size
 
     def __repr__(self):
@@ -37,7 +44,8 @@ class OSTree(RBTree):
 
     def insert(self, z: Union[int, float, OSNode]):
         if not isinstance(z, self.node_type):
-            z = self.node_type(z, left=self.nil, right=self.nil, color=BLACK, size=0)
+            z = self.node_type(
+                z, left=self.nil, right=self.nil, color=BLACK, size=0)
         return self._insert(z)
 
     def insert_fixup(self, z):
@@ -134,8 +142,10 @@ class OSTree(RBTree):
 
 if __name__ == "__main__":
     ost = OSTree(allow_duplicate=True)
-    insert_list = [26, 17, 41, 14, 21, 30, 47, 10, 16, 19,
-                   21, 28, 38, 7, 12, 14, 20, 35, 39, 3]
+    insert_list = [
+        26, 17, 41, 14, 21, 30, 47, 10, 16, 19, 21, 28, 38, 7, 12, 14, 20, 35,
+        39, 3
+    ]
     for insert_item in insert_list:
         # print("-+" * 20)
         # print("Insert: ", insert_item)
