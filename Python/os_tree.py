@@ -163,19 +163,12 @@ if __name__ == "__main__":
     a = 0
     while ost.root is not ost.nil:
         if a == 0:
-            print("Delete:", ost.root.data)
-            ost.delete(ost.root)
+            ref = ost.root
         elif a == 1:
-            print("Delete:", ost.maximum().data)
-            ost.delete(ost.maximum())
+            ref = ost.maximum()
         else:
-            print("Delete:", ost.minimum().data)
-            ost.delete(ost.minimum())
+            ref = ost.minimum()
+        print("Delete: ", ref.data)
+        ost.delete(ref)
         a = (a + 1) % 3
         print(ost)
-
-    # print(rbt)
-    # rbt.left_rotate(rbt.search(60))
-    # print(rbt)
-    # rbt.right_rotate(rbt.search(81))
-    # print(rbt)
