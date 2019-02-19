@@ -13,7 +13,7 @@ using std::setw;
 using std::stack;
 using std::vector;
 
-#define WIDTH 6
+#define WIDTH 4
 
 int main()
 {
@@ -54,7 +54,7 @@ int main()
         stk.push(arr[idx]);
         idx = prev[idx];
     }
-    cout << " res ";
+    cout << "  res";
     while (!stk.empty())
     {
         cout << setw(WIDTH) << stk.top();
@@ -63,3 +63,10 @@ int main()
     cout << endl;
     return 0;
 }
+/*
+index   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16
+array  10   0   8   4  12   2  10   6  14   1   9   5  13   3  11   7  15
+table   1   1   2   2   3   2   3   3   4   2   4   3   5   3   5   4   6
+ prev  -1  -1   1   1   2   1   2   3   4   1   7   3  10   5  10   7  12
+  res   0   4   6   9  13  15
+*/
