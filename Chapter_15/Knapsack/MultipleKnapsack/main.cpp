@@ -64,16 +64,16 @@ int main()
             f[j] = max(f[j], f[j - weight] + value);
     };
 
-    auto MultiplePack = [m, ZeroOnePack](int weight, int value, int amount) {
+    auto MultiplePack = [m, ZeroOnePack](int weight, int value, int quantity) {
         int t = 1;  // t = 2^k
-        int bound = amount + 1;
+        int bound = quantity + 1;
         while (t * 2 < bound)
         {
             ZeroOnePack(t * weight, t * value);  // 分解为指数的部分
-            amount -= t;
+            quantity -= t;
             t *= 2;
         }
-        ZeroOnePack(amount * weight, amount * value);  // 不足指数的部分
+        ZeroOnePack(quantity * weight, quantity * value);  // 不足指数的部分
     };
     for (int i = 1; i <= n; ++i)
         MultiplePack(w[i], v[i], c[i]);
