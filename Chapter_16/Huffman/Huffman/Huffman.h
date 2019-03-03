@@ -25,11 +25,9 @@ typedef struct _Node
 
 class Huffman
 {
-    bool comp = [](std::pair<char, int> a, std::pair<char, int> b) { return a.second > b.second; };
-
    private:
     std::string text;
-    std::unordered_map<char, int> freqTable;
+    std::map<char, int> freqTable;
     std::map<char, std::string> huffmanTable;
     const Node* treeRoot;
 
@@ -49,7 +47,7 @@ class Huffman
     void setText(std::string& _text) { text = _text; }
     std::string getText() { return std::string(text); }
 
-    std::unordered_map<char, int> getFreqTable() { return freqTable; }
+    std::map<char, int> getFreqTable() { return freqTable; }
     std::map<char, std::string> getHuffmanTable() { return huffmanTable; }
 
     void build();
