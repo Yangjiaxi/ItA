@@ -20,7 +20,6 @@ class Node
    public:
     T no;
     Node<T>* pre;
-    // T no;
     int d;
     bool vis;
     Node(T _no) : d(0x3f3f3f3f), vis(false), no(_no) {}
