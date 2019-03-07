@@ -1,0 +1,7 @@
+u v
+u x
+v y
+w z
+x v
+y x
+z z

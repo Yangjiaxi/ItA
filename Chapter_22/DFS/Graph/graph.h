@@ -1,3 +1,5 @@
+#include <iomanip>
+#include <iostream>
 #include <map>
 #include <queue>
 
@@ -11,6 +13,11 @@ class Edge
     Edge* next;
     Edge(T _no, int _w) : no(_no), w(_w), next(nullptr) {}
     Edge(T _no) : no(_no), w(1), next(nullptr) {}
+    friend std::ostream& operator<<(std::ostream& os, const Edge& eg)
+    {
+        os << "Edge_" << eg.no << " w: " << eg.w;
+        return os;
+    }
 };
 
 // 节点
@@ -20,10 +27,18 @@ class Node
    public:
     T no;
     Node<T>* pre;
-    int d;
+    int d;  // discover time
+    int f;  // finish   time
     bool vis;
-    Node(T _no) : d(0x3f3f3f3f), vis(false), no(_no) {}
-    Node() : d(0x3f3f3f3f), vis(false) {}
+    Node(T _no) : d(0), f(0), vis(false), no(_no) {}
+    Node() : d(0), f(0), vis(false) {}
+
+    friend std::ostream& operator<<(std::ostream& os, const Node& nd)
+    {
+        os << "[" << nd.no << "]{" << std::setw(3) << nd.d << " -" << std::setw(3) << nd.f
+           << " vis: " << nd.vis << "}";
+        return os;
+    }
 };
 
 template <class T>
@@ -43,6 +58,14 @@ class Graph
     void BFS(T s);
     // 执行BFS后打印s到v的路径
     void print_path_after_BFS(T s, T v);
+    // 执行DFS
+    void DFS();
+
+   private:
+    // 全局时间戳
+    unsigned long g_time;
+    // DFS辅助
+    void DFS_visit(T u);
 };
 
 template <class T>
@@ -59,10 +82,9 @@ void Graph<T>::add(T u, T v)
 template <class T>
 void Graph<T>::output()
 {
-    for (auto node_p : nodes)
+    for (auto& [_, node] : nodes)
     {
-        Node<T>& node = node_p.second;
-        std::cout << "[" << node.no << "]{d:" << node.d << " vis:" << node.vis << "}|:";
+        std::cout << node << "|:";
         Edge<T>* t = edges[node.no];
         while (t != nullptr)
         {
@@ -118,4 +140,37 @@ void Graph<T>::print_path_after_BFS(T s, T v)
         print_path_after_BFS(s, nodes[v].pre->no);
         std::cout << "->" << v;
     }
+}
+
+template <class T>
+void Graph<T>::DFS()
+{
+    std::cout << "Start DFS : ";
+    g_time = 0;
+    for (std::pair<T, Node<T>> node_p : nodes)
+    {
+        if (!node_p.second.vis) DFS_visit(node_p.first);
+    }
+    std::cout << std::endl;
+}
+
+template <class T>
+void Graph<T>::DFS_visit(T u)
+{
+    std::cout << "(" << u << " ";
+    ++g_time;
+    nodes[u].d = g_time;
+    nodes[u].vis = true;
+
+    for (Edge<T>* v = edges[u]; v != nullptr; v = v->next)
+    {
+        if (!nodes[v->no].vis)
+        {
+            nodes[v->no].pre = &nodes[u];
+            DFS_visit(v->no);
+        }
+    }
+    ++g_time;
+    nodes[u].f = g_time;
+    std::cout << " " << u << ")";
 }
