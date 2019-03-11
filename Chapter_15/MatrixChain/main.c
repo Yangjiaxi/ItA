@@ -78,6 +78,6 @@ int main()
 
     printf("Solution:\n");
     print_matrix_ans(s, 1, N);  // print solution
-
+    printf("\n");
     return 0;
 }
