@@ -221,7 +221,7 @@ Graph<T> Graph<T>::transpose()
             v = v->next;
         }
     }
-    G_T.output();
+    // G_T.output();
     return std::move(G_T);
 }
 template <class T>

@@ -5,6 +5,7 @@
 template <class T>
 void output_scc_group(std::vector<std::vector<T>>& groups, std::ostream& os)
 {
+    os << "Strongly Connected Components : (Show as groups)" << std::endl;
     os << "{";
     for (size_t i = 0; i < groups.size(); ++i)
     {
