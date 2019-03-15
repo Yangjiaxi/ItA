@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iomanip>
 #include <iostream>
 #include <map>
@@ -94,8 +95,9 @@ void Graph<T>::add(T u, T v)
 template <class T>
 void Graph<T>::output()
 {
-    for (auto& [_, node] : nodes)
+    for (std::pair<T, Node<T>> node_p : nodes)
     {
+        Node<T>& node = node_p.second;
         std::cout << node << "|:";
         Edge<T>* t = edges[node.no];
         while (t != nullptr)
