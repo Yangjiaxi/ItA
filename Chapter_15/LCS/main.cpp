@@ -123,6 +123,8 @@ int main()
 
     print_all_LCS(r, a, "", f[la][lb], la, lb, res_group, false);
 
+    std::cout << "The Longest Common Subsequence Length : " << f[la][lb] << std::endl;
+
     std::cout << "{";
 
     for (size_t i = 0; i < res_group.size(); ++i)
