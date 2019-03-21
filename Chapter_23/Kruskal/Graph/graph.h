@@ -112,7 +112,7 @@ void Graph<T>::add(T u, T v, int w)
 template <class T>
 void Graph<T>::output()
 {
-    for (auto node_p : nodes)
+    for (auto& node_p : nodes)
     {
         Node<T>& node = node_p.second;
         std::cout << node << "|:";
@@ -182,7 +182,7 @@ void Graph<T>::DFS()
         return;
     }
     g_time = 0;
-    for (std::pair<T, Node<T>> node_p : nodes)
+    for (auto& node_p : nodes)
     {
         if (!node_p.second.vis)
             DFS_visit(node_p.first);
@@ -215,7 +215,7 @@ std::vector<T> Graph<T>::topo_sort()
     DFS();
     using pT = std::pair<T, unsigned long>;
     std::vector<pT> tmp;
-    for (auto node : nodes)
+    for (auto& node : nodes)
         tmp.push_back(std::make_pair(node.first, node.second.f));
     std::sort(tmp.begin(), tmp.end(), [](const pT l, const pT r) { return l.second > r.second; });
     std::vector<T> res;
@@ -280,7 +280,7 @@ template <class T>
 Graph<T> Graph<T>::MST_Kruskal()
 {
     DisjointSet<T> edges_set;
-    for (std::pair<T, Node<T>> node_p : nodes)
+    for (auto& node_p : nodes)
         edges_set.make_set(node_p.first);
 
     using ppTTi = std::pair<std::pair<T, T>, int>;
@@ -296,7 +296,6 @@ Graph<T> Graph<T>::MST_Kruskal()
     std::sort(edges_vec.begin(), edges_vec.end(),
               [](ppTTi l, ppTTi r) { return l.second <= r.second; });
 
-    // int cost = 0;
     Graph<T> MST;
     for (ppTTi edge : edges_vec)
     {
@@ -305,12 +304,10 @@ Graph<T> Graph<T>::MST_Kruskal()
         int w = edge.second;
         if (edges_set.find_set(u) != edges_set.find_set(v))
         {
-            // cost += w;
             MST.add(u, v, w);
             MST.add(v, u, w);
             edges_set.set_union(u, v);
         }
     }
-    // std::cout << "Minimal cost : " << cost << std::endl;
     return std::move(MST);
 }
