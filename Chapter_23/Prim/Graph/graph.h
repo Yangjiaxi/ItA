@@ -36,8 +36,6 @@ class Node
     bool vis;
     Node(T _no) : d(0), f(0), vis(false), no(_no) {}
     Node() : d(0), f(0), vis(false) {}
-    // for Prim use, d for key
-    Node(bool _, T _no) : d(INF), vis(false), pre(nullptr), no(_no) {}
 
     friend std::ostream& operator<<(std::ostream& os, const Node& nd)
     {
