@@ -572,8 +572,7 @@ Graph<T>::all_pairs_matrix()
             for (auto& kp : nodes)
             {
                 T k = kp.first;
-                if (P[i][j] == nullptr && i != j && i != k && j != k &&
-                    res[i][k] + w(k, j) == res[i][j])
+                if (j != k && res[i][k] + w(k, j) == res[i][j])
                     P[i][j] = &nodes[k];
             }
         }
