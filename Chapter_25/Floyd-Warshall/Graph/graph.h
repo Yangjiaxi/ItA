@@ -538,7 +538,7 @@ map<T, map<T, int>> Graph<T>::extend_all_pairs(map<T, map<T, int>>& L, map<T, ma
         }
     }
 
-    return move(move(L_p));
+    return move(L_p);
 }
 
 template <class T>
