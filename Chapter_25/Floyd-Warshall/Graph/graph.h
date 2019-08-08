@@ -48,8 +48,8 @@ class Node
 
     friend std::ostream& operator<<(std::ostream& os, const Node& nd)
     {
-        os << "[" << setw(5) << nd.no << "]{" << setw(3) << nd.d << " -" << setw(3) << nd.f
-           << " vis: " << nd.vis << "}";
+        os << "[" << setw(5) << nd.no << "]{" << setw(3) << nd.d << " -"
+           << setw(3) << nd.f << " vis: " << nd.vis << "}";
         return os;
     }
 };
@@ -118,7 +118,8 @@ class Graph
     // 松弛操作 u, v, w=w(u->v)
     bool relax(T u, T v, int w);
     // 扩展路，用于基于矩阵乘法的全节点最短路算法
-    map<T, map<T, int>> extend_all_pairs(map<T, map<T, int>>& L, map<T, map<T, int>>& W);
+    map<T, map<T, int>> extend_all_pairs(map<T, map<T, int>>& L,
+                                         map<T, map<T, int>>& W);
 };
 
 template <class T>
@@ -215,7 +216,8 @@ void Graph<T>::BFS(T s)
                 nodes[v->no].vis = true;
                 nodes[v->no].d = nodes[u].d + 1;
                 nodes[v->no].pre = &nodes[u];
-                cout << "Vis : " << v->no << " dis : " << nodes[v->no].d << " pre : " << u << endl;
+                cout << "Vis : " << v->no << " dis : " << nodes[v->no].d
+                     << " pre : " << u << endl;
                 Q.push(v->no);
             }
             v = v->next;
@@ -281,7 +283,8 @@ vector<T> Graph<T>::topo_sort()
     vector<pT> tmp;
     for (auto& node : nodes)
         tmp.push_back(make_pair(node.first, node.second.f));
-    std::sort(tmp.begin(), tmp.end(), [](const pT l, const pT r) { return l.second > r.second; });
+    std::sort(tmp.begin(), tmp.end(),
+              [](const pT l, const pT r) { return l.second > r.second; });
     vector<T> res;
 
     for (auto tt : tmp)
@@ -515,7 +518,8 @@ void Graph<T>::dijkstra(T s)
 }
 
 template <class T>
-map<T, map<T, int>> Graph<T>::extend_all_pairs(map<T, map<T, int>>& L, map<T, map<T, int>>& W)
+map<T, map<T, int>> Graph<T>::extend_all_pairs(map<T, map<T, int>>& L,
+                                               map<T, map<T, int>>& W)
 {
     map<T, map<T, int>> L_p;
     for (auto& np : nodes)
@@ -590,7 +594,10 @@ pair<map<T, map<T, int>>, map<T, map<T, Node<T>*>>> Graph<T>::all_pairs_matrix()
 }
 
 template <class T>
-void __inner_all_pairs_path(T i, T j, map<T, map<T, Node<T>*>>& P, vector<T>& res)
+void __inner_all_pairs_path(T i,
+                            T j,
+                            map<T, map<T, Node<T>*>>& P,
+                            vector<T>& res)
 {
     if (i == j)
         res.push_back(i);

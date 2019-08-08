@@ -29,7 +29,8 @@ int main()
         for (auto& vp : G.nodes)
         {
             T v = vp.first;
-            std::cout << std::setw(5) << ((pre[u][v] != nullptr) ? pre[u][v]->no : 'N');
+            std::cout << std::setw(5)
+                      << ((pre[u][v] != nullptr) ? pre[u][v]->no : 'N');
         }
         std::cout << std::endl;
     }
@@ -47,7 +48,8 @@ int main()
             {
                 std::cout << "\tPath : ";
                 auto path = G.all_pairs_path(u, v, pre);
-                std::for_each(path.begin(), path.end(), [](char el) { std::cout << " ->" << el; });
+                std::for_each(path.begin(), path.end(),
+                              [](char el) { std::cout << " ->" << el; });
             }
             std::cout << std::endl;
         }

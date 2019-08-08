@@ -25,10 +25,16 @@ class DisjointSet
 
     // COMMON:
     // 向集合加入元素T x
-    void make_set(const T& x) { set_data.insert(std::make_pair(x, new SetNode<T>(x))); }
+    void make_set(const T& x)
+    {
+        set_data.insert(std::make_pair(x, new SetNode<T>(x)));
+    }
     void make_set(const T&& x) { return make_set(x); }
     // 合并拥有元素x与y的两个集合
-    void set_union(T& x, T& y) { link(find_set(set_data[x]), find_set(set_data[y])); }
+    void set_union(T& x, T& y)
+    {
+        link(find_set(set_data[x]), find_set(set_data[y]));
+    }
     void set_union(T&& x, T&& y) { set_union(x, y); }
     // 连接两个树
     void link(SetNode<T>* x, SetNode<T>* y)
